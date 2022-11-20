@@ -29,27 +29,28 @@ def ciphers_obj( key:bytes, mac_len:int, ext_seq_num_flag:bool, seq_num_counter:
     ## Replace XXXX by the appropriated value which 
     ## indicates the length of the salt as 
     ## a number of bytes
-    "salt" / Bytes(XXXX),
+    "salt" / Bytes(4),
     "iv" / IfThenElse(this._.ext_seq_num_flag,
     ## Replace the byte value taken by Const. The
     ## binary value is not correct and needs to be 
     ## replaced completely. The first  bytes have 
     ## only been indicated as an example
     ## on how to write bytes and may not be correct.
-      Struct( "zero" / Const(b'XXXXXXXXX'),
+      Struct( "zero" / Const(b'\x00\x00\x00\x00'),
               "seq_num_counter" / Int32ub),
       Struct( "seq_num_counter" / Int64ub)
       )
   )
 
-  return AES.new(XXX)
+  return AES.new(key, AES.MODE_GCM,\
+                       nonce=None, mac_len=16)
   ## END_CODE
 
 
 ## Alice
 alice_plaintext = b"yet another secret"
 print("Alice plaintext is: %s"%alice_plaintext)
-alice_cipher = ciphers_obj()
+alice_cipher = ciphers_obj(key, mac_len, ext_seq_num_flag, seq_num_counter, salt)
 ## encryption, authentication
 ciphertext, icv =\
   alice_cipher.encrypt_and_digest(alice_plaintext)

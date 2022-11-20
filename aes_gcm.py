@@ -65,19 +65,13 @@ clear_text = "secret"
 
 
 def encrypt_and_digest( key:bytes, nonce_dict:dict, clear_text:bytes ) -> dict:
-  """ return a dictionary that associates to any nonce label a uplet 
-      ( nonce, cipher_text, icv ) corresponding to the cipher_text and icv 
-      of the encrypted clear_text
-  """
   output_dict = {}
-  ## BEGIN CODE TO BE CHANGED
   for keydict in nonce_dict:
     current_nonce = nonce_dict[keydict]
     alice_cipher = AES.new(key, AES.MODE_GCM, nonce=current_nonce, mac_len=16)
     ciphertext, icv = alice_cipher.encrypt_and_digest(clear_text)
     output_dict[keydict] = (current_nonce,ciphertext, icv)
 
-  ## END CODE TO BE CHANGED
   return output_dict
 
 print("=============TESTING QUESTION 3====================")

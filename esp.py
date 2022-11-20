@@ -1,7 +1,7 @@
 from construct.core import *
 from construct.lib import *
 
-from sa-student import SA, Error
+from sa import SA, Error
 
 
 ## Teh section to be completed are indicated with
@@ -229,7 +229,7 @@ alice_clear_text_esp = {'data':alice_inner_ip_pkt,\
                         'next_header':XXXX}
 print(alice_clear_text_esp)
 
-print("-- Alice Encrypting clear text" +\ 
+print("-- Alice Encrypting clear text" +\
       "and concatenating with ESP header")
 alice_esp = esp.pack(alice_inner_ip_pkt)
 print(alice_esp)
@@ -240,9 +240,9 @@ print("  esp: %s"%hexlify(bytes_esp))
 
 print("-- Bob receives the packet")
 ### Complete the code so that bytes_esp which has
-### a byte format is converted into a structure 
-### such as a dictionary. The returned dictionary 
-### is designated as bob_esp. 
+### a byte format is converted into a structure
+### such as a dictionary. The returned dictionary
+### is designated as bob_esp.
 #BEGIN_CODE
 bob_esp = XXXX
 #END_CODE
@@ -253,12 +253,12 @@ encrypted_esp = {\
   'encrypted_payload': bob_esp['encrypted_payload'], \
   'icv': bob_esp['icv']}
 
-### Complete the code with the function that takes 
-### the encrypted_esp structure proceed to the 
-### decryption and returns the structure associated 
-### to the clear text esp. This structure is 
+### Complete the code with the function that takes
+### the encrypted_esp structure proceed to the
+### decryption and returns the structure associated
+### to the clear text esp. This structure is
 ### designated as bob_clear_text_esp. The data
-### alice_inner_ip_pkt is read from this structure. 
+### alice_inner_ip_pkt is read from this structure.
 
 bob_clear_text_esp = esp.unpack(encrypted_esp)
 print(bob_clear_text_esp)
@@ -271,8 +271,3 @@ print("The short version would be:")
 print("    - pack:%s"%esp.pack(alice_inner_ip_pkt))
 print("    - unpack:%s"\
   %esp.unpack(esp.pack(alice_inner_ip_pkt)))
-
-
-
-
-
