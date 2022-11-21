@@ -225,7 +225,7 @@ pad = esp.pad(len(alice_inner_ip_pkt))
 ### describes data as an IPv6 packet.  
 alice_clear_text_esp = {'data':alice_inner_ip_pkt,\
                         'pad':pad,\
-                        'pad_len': XXXX, \
+                        'pad_len': len(pad()), \
                         'next_header':XXXX}
 print(alice_clear_text_esp)
 
@@ -244,7 +244,7 @@ print("-- Bob receives the packet")
 ### such as a dictionary. The returned dictionary
 ### is designated as bob_esp.
 #BEGIN_CODE
-bob_esp = XXXX
+bob_esp = ast.literal_eval(bytes_esp.decode('utf-8'))
 #END_CODE
 print(bob_esp)
 

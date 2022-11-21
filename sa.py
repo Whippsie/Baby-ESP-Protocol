@@ -9,8 +9,12 @@ from construct.lib import *
 ## and END_CODE
 
 IIV_Nonce = Struct(
-## Complete the IIV_Nonce structure
-## XXXXXX
+ "salt" / Bytes(4),
+    "iv" / IfThenElse(this._.ext_seq_num_flag,
+      Struct( "zero" / Const(b'\x00\x00\x00\x00'),
+              "seq_num_counter" / Int32ub),
+      Struct( "seq_num_counter" / Int64ub)
+      )
 )
 
 
@@ -125,7 +129,8 @@ class SA:
         """
         if self.esp_enc_alg  == "ENCR_AES_GCM_16_IIV":
           ## BEGIN code to update
-             return [ AES.new(XXXXXXX ) ]
+            
+             return [ AES.new(self.esp_enc_key, AES.MODE_GCM, nonce=None, mac_len=16 ) ]
           ## END code to update
         raise UnsupportedEncAlgError(sa.esp_enc_alg, "unsupported") 
 
