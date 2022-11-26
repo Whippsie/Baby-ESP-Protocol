@@ -1,7 +1,7 @@
 from Cryptodome.Random import get_random_bytes
 from Cryptodome.Cipher import AES
 from ipaddress import IPv4Address, IPv6Address
-
+from nonce import *
 from construct.core import *
 from construct.lib import *
 
@@ -129,8 +129,8 @@ class SA:
         """
         if self.esp_enc_alg  == "ENCR_AES_GCM_16_IIV":
           ## BEGIN code to update
-            
-             return [ AES.new(self.esp_enc_key, AES.MODE_GCM, nonce=None, mac_len=16 ) ]
+             mynonce = show_nonce(self.salt, self.seq_num_counter, self.ext_seq_num_flag)
+             return [ AES.new(self.esp_enc_key, AES.MODE_GCM, nonce=mynonce[0], mac_len=16 ) ]
           ## END code to update
         raise UnsupportedEncAlgError(sa.esp_enc_alg, "unsupported") 
 

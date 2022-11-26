@@ -1,3 +1,5 @@
+import ast
+
 from construct.core import *
 from construct.lib import *
 
@@ -99,7 +101,7 @@ class ESP:
 
 
     def pad(self, data_len):
-      """ returns padding bytes """
+
 
     ### Complete the code so it returns the necessary 
     ### padding bytes for an ESP packet. The padding 
@@ -108,8 +110,7 @@ class ESP:
     ### Payload 
 
     ##BEGIN_CODE
-
-    return padding_bytes
+        return bytearray(data_len % 4)
     ##END_CODE
 
     def pack(self, data, pad_len=None, next_header="IPv6"):
@@ -225,8 +226,9 @@ pad = esp.pad(len(alice_inner_ip_pkt))
 ### describes data as an IPv6 packet.  
 alice_clear_text_esp = {'data':alice_inner_ip_pkt,\
                         'pad':pad,\
-                        'pad_len': len(pad()), \
-                        'next_header':XXXX}
+                        'pad_len': len(pad), \
+                        'next_header':41}
+#https://serverfault.com/questions/770279/ipv6-and-esp-as-a-next-header
 print(alice_clear_text_esp)
 
 print("-- Alice Encrypting clear text" +\

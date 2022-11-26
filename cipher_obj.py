@@ -3,7 +3,7 @@ from construct.lib import *
 from binascii import hexlify
 from Cryptodome.Cipher import AES
 from Cryptodome.Random import get_random_bytes
-
+from nonce import *
 ## The section to complete are indicated 
 ## with XXXX or tagged with BEGIN_CODE and
 ## END_CODE
@@ -41,9 +41,9 @@ def ciphers_obj( key:bytes, mac_len:int, ext_seq_num_flag:bool, seq_num_counter:
       Struct( "seq_num_counter" / Int64ub)
       )
   )
-
+  mynonce = show_nonce(salt, seq_num_counter,ext_seq_num_flag)
   return AES.new(key, AES.MODE_GCM,\
-                       nonce=None, mac_len=16)
+                       nonce=mynonce[0], mac_len=mac_len)
   ## END_CODE
 
 
