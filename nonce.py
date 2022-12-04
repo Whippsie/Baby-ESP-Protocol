@@ -22,9 +22,10 @@ def show_nonce(salt:bytes, seq_num:int, ext_seq:bool) -> Tuple[ bytes, dict ] :
     ## only been indicated as an example
     ## on how to write bytes and may not be correct.
     "iv" / IfThenElse(this._.ext_seq_num_flag,
+      Struct("seq_num_counter" / Int64ub),
       Struct( "zero" / Const(b'\x00\x00\x00\x00'),
-              "seq_num_counter" / Int32ub),
-      Struct( "seq_num_counter" / Int64ub)
+              "seq_num_counter" / Int32ub)
+
       )
   )
 
@@ -66,12 +67,12 @@ def show_nonce(salt:bytes, seq_num:int, ext_seq:bool) -> Tuple[ bytes, dict ] :
                                       byte_nonce))
 
 
-#print(show_nonce(b'\xf7\xca\x79\xfa', 5, True)) # un num´ero de s´equence de 5 avec un num´ero de s´equence ´etendu activ´e
-#print(show_nonce(b'\xf7\xca\x79\xfa', 5, False)) # un num´ero de s´equence de 5 avec un num´ero de s´equence ´etendu d´esactiv´e (cas standard)
-#print(show_nonce(b'\xf7\xca\x79\xfa', 4294967295, True)) # un num´ero de s´equence de 4294967295 avec un num´ero de s´equence ´etendu activ´e
-#print(show_nonce(b'\xf7\xca\x79\xfa', 4294967295, False)) # un num´ero de s´equence de 4294967295 avec un num´ero de s´equence ´etendu d´esactiv´e (cas standard)
-#print(show_nonce(b'\xf7\xca\x79\xfa', 4294967296, True)) # un num´ero de s´equence de 4294967296 avec un num´ero de s´equence ´etendu d´esactiv´e (cas standard)
-#print(show_nonce(b'\xf7\xca\x79\xfa', 4294967296, False)) # un num´ero de s´equence de 4294967296 avec un num´ero de s´equence ´etendu d´esactiv´e (cas standard)
+print(show_nonce(b'\xf7\xca\x79\xfa', 5, True)) # un num´ero de s´equence de 5 avec un num´ero de s´equence ´etendu activ´e
+print(show_nonce(b'\xf7\xca\x79\xfa', 5, False)) # un num´ero de s´equence de 5 avec un num´ero de s´equence ´etendu d´esactiv´e (cas standard)
+print(show_nonce(b'\xf7\xca\x79\xfa', 4294967295, True)) # un num´ero de s´equence de 4294967295 avec un num´ero de s´equence ´etendu activ´e
+print(show_nonce(b'\xf7\xca\x79\xfa', 4294967295, False)) # un num´ero de s´equence de 4294967295 avec un num´ero de s´equence ´etendu d´esactiv´e (cas standard)
+print(show_nonce(b'\xf7\xca\x79\xfa', 4294967296, True)) # un num´ero de s´equence de 4294967296 avec un num´ero de s´equence ´etendu d´esactiv´e (cas standard)
+print(show_nonce(b'\xf7\xca\x79\xfa', 4294967296, False)) # un num´ero de s´equence de 4294967296 avec un num´ero de s´equence ´etendu d´esactiv´e (cas standard)
 
 #Q6
 #IV est 8 bytes, soit implicite (4 zero et 4 seq number) ou 8 extended sequence number  https://www.rfc-editor.org/rfc/rfc8750.html

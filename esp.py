@@ -2,19 +2,10 @@ import ast
 
 from construct.core import *
 from construct.lib import *
-
+import pad
 from sa import SA, Error
 
-
-## Teh section to be completed are indicated with
-## BEGIN_CODE and END_CODE.
-
-"""
-
-https://pycryptodome.readthedocs.io/en/latest/src/cipher/modern.html
-https://construct.readthedocs.io/en/latest/meta.html
-
-"""
+#region param
 NextHeader = Enum(BytesInteger(1),
     IPv4 = 6,
     TCP = 6,
@@ -25,7 +16,6 @@ NextHeader = Enum(BytesInteger(1),
     NoNxt = 59,
     SCTP = 132
 )
-
 
 Pad = GreedyRange(Byte)
 
@@ -57,6 +47,7 @@ EncryptedESP = Struct(
 Embedded(ESPHeader),
 Embedded(EncryptedESPPayload)
 )
+#endregion
 
 """ class ESP that implements encapsulation / decapsulation of ESP packets """
 
@@ -102,7 +93,6 @@ class ESP:
 
     def pad(self, data_len):
 
-
     ### Complete the code so it returns the necessary 
     ### padding bytes for an ESP packet. The padding 
     ### bytes are derived from data_len the length 
@@ -110,7 +100,11 @@ class ESP:
     ### Payload 
 
     ##BEGIN_CODE
-        return bytearray(data_len % 4)
+        len_left = (data_len + 2) % 4
+        padding_bytes = b'\x01\x02\x03\x04'
+        padding_bytes = padding_bytes[:len_left]
+        #return pad.pad(data_len)
+        return padding_bytes
     ##END_CODE
 
     def pack(self, data, pad_len=None, next_header="IPv6"):
@@ -159,7 +153,6 @@ class ESP:
                                             data_len=data_len)
         return payload
 
-
     def to_bytes(self, encrypted_esp_pkt):
         """ Converts an encrypted ESP packet structure to bytes
 
@@ -202,7 +195,6 @@ class ESP:
         return EncryptedESP.parse(byte_encrypted_esp_pkt, \
                    encrypted_payload_len=encrypted_payload_len, \
                    icv_len=self.sa.icv_len())
-
 
 
 ## Shared SA between Alice and Bob

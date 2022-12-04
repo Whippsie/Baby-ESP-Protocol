@@ -24,16 +24,9 @@ def pad( data_len ):
   ### Payload 
 
   ##BEGIN_CODE
-  len_left = data_len % 255
-  #elen = 1 + (len(line) - 1) % N
-  #line += bytes(elen for _ in range(elen))
-  #bytes += "\0"*len_diff
-  padding_bytes += "\" + i * len_left
-  nums = [1, 2, 3, 4, 5]
-  for i in range(len_left):
-    nums i = i+1
-  padding_bytes = bytes(nums)
-  print(bytes(nums))
+  len_left = (data_len + 2) % 4
+  padding_bytes = b'\x01\x02\x03\x04'
+  padding_bytes = padding_bytes[:len_left]
   return padding_bytes
   ##END_CODE
 

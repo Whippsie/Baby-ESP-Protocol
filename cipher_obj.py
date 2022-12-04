@@ -36,9 +36,10 @@ def ciphers_obj( key:bytes, mac_len:int, ext_seq_num_flag:bool, seq_num_counter:
     ## replaced completely. The first  bytes have 
     ## only been indicated as an example
     ## on how to write bytes and may not be correct.
+       Struct("seq_num_counter" / Int64ub),
       Struct( "zero" / Const(b'\x00\x00\x00\x00'),
-              "seq_num_counter" / Int32ub),
-      Struct( "seq_num_counter" / Int64ub)
+              "seq_num_counter" / Int32ub)
+
       )
   )
   mynonce = show_nonce(salt, seq_num_counter,ext_seq_num_flag)

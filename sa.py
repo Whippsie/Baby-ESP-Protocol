@@ -11,9 +11,10 @@ from construct.lib import *
 IIV_Nonce = Struct(
  "salt" / Bytes(4),
     "iv" / IfThenElse(this._.ext_seq_num_flag,
+      Struct("seq_num_counter" / Int64ub),
       Struct( "zero" / Const(b'\x00\x00\x00\x00'),
-              "seq_num_counter" / Int32ub),
-      Struct( "seq_num_counter" / Int64ub)
+              "seq_num_counter" / Int32ub)
+
       )
 )
 
