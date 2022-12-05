@@ -24,7 +24,11 @@ def pad( data_len ):
   ### Payload 
 
   ##BEGIN_CODE
-  len_left = (data_len + 2) % 4
+  #pair
+  if (data_len % 2):
+      len_left = (data_len+2) % 4
+  else:
+      len_left = data_len % 4
   padding_bytes = b'\x01\x02\x03\x04'
   padding_bytes = padding_bytes[:len_left]
   return padding_bytes
