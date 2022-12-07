@@ -100,10 +100,12 @@ class ESP:
     ### Payload 
 
     ##BEGIN_CODE
-        len_left = (data_len + 2) % 4
+        if (data_len % 2==0):
+            len_left = (data_len + 2) % 4
+        else:
+            len_left = data_len % 4
         padding_bytes = b'\x01\x02\x03\x04'
         padding_bytes = padding_bytes[:len_left]
-        #return pad.pad(data_len)
         return padding_bytes
     ##END_CODE
 

@@ -25,7 +25,7 @@ def pad( data_len ):
 
   ##BEGIN_CODE
   #pair
-  if (data_len % 2):
+  if (data_len % 2==0):
       len_left = (data_len+2) % 4
   else:
       len_left = data_len % 4
@@ -33,4 +33,16 @@ def pad( data_len ):
   padding_bytes = padding_bytes[:len_left]
   return padding_bytes
   ##END_CODE
+
+#Test for padding
+#print(pad(14))
+#print(pad(15))
+#print(pad(16))
+#print(pad(17))
+#print(pad(18))
+#print(pad(19))
+#print(pad(20))
+#print(pad(0))
+#print(pad(2))
+#print(pad(1))
 
