@@ -30,19 +30,21 @@ def pad( data_len ):
   else:
       len_left = data_len % 4
   padding_bytes = b'\x01\x02\x03\x04'
+  if (len_left == 0):
+      len_left = 4
   padding_bytes = padding_bytes[:len_left]
   return padding_bytes
   ##END_CODE
 
 #Test for padding
-#print(pad(14))
-#print(pad(15))
-#print(pad(16))
-#print(pad(17))
-#print(pad(18))
-#print(pad(19))
-#print(pad(20))
-#print(pad(0))
-#print(pad(2))
-#print(pad(1))
+# print(pad(14))
+# print(pad(15))
+# print(pad(16))
+# print(pad(17))
+# print(pad(18))
+# print(pad(19))
+# print(pad(20))
+# print(pad(0))
+# print(pad(2))
+# print(pad(1))
 

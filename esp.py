@@ -105,6 +105,8 @@ class ESP:
         else:
             len_left = data_len % 4
         padding_bytes = b'\x01\x02\x03\x04'
+        if (len_left == 0):
+            len_left = 4
         padding_bytes = padding_bytes[:len_left]
         return padding_bytes
     ##END_CODE
@@ -240,7 +242,7 @@ print("-- Bob receives the packet")
 ### such as a dictionary. The returned dictionary
 ### is designated as bob_esp.
 #BEGIN_CODE
-bob_esp = ast.literal_eval(bytes_esp.decode('utf-8'))
+bob_esp = esp.from_bytes(bytes_esp)
 #END_CODE
 print(bob_esp)
 
